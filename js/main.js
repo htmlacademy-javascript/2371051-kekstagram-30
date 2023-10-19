@@ -1,5 +1,8 @@
-const PHOTOS_ARRAY_LENGTH = 25;
-const MAX_COMMENTS_ARRAY_LENGTH = 30;
+const PHOTOS_COUNT = 25;
+const MAX_COMMENTS_COUNT = 30;
+const AVATARS_COUNT = 6;
+const LIKES_MIN = 15;
+const LIKES_MAX = 200;
 
 const COMMENTATORS_NAMES = [
   'Лилия',
@@ -62,18 +65,23 @@ const getRandomArrayElement = function (elements) {
   return elements[getRandomInteger(0, elements.length - 1)];
 };
 
+const createMessage = function () {
+  return Array.from({ length: getRandomInteger(1, 2) },
+    () => getRandomArrayElement(MESSAGES)).join(' ');
+};
+
 
 const createComment = function () {
   return {
     id: getRandomInteger(1, 1000),
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    message: getRandomArrayElement(MESSAGES),
+    avatar: `img/avatar-${getRandomInteger(1, AVATARS_COUNT)}.svg`,
+    message: createMessage(),
     name: getRandomArrayElement(COMMENTATORS_NAMES),
   };
 };
 
 const createCommentsArray = function () {
-  return Array.from({ length: getRandomInteger(0, MAX_COMMENTS_ARRAY_LENGTH) }, createComment);
+  return Array.from({ length: getRandomInteger(0, MAX_COMMENTS_COUNT) }, createComment);
 };
 
 
@@ -82,13 +90,13 @@ const createPhotoDescription = function () {
     id: randomPhotoId(), // число — идентификатор опубликованной фотографии. Это число от 1 до 25. Идентификаторы не должны повторяться.
     url: `photos/${randomUrlPhotoId()}.jpg`, // строка — адрес картинки вида photos/{{i}}.jpg, где {{i}} — это число от 1 до 25. Адреса картинок не должны повторяться.
     description: getRandomArrayElement(DESCRIPTIONS),//строка — описание фотографии. Описание придумайте самостоятельно.
-    likes: getRandomInteger(15, 200),//число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
+    likes: getRandomInteger(LIKES_MIN, LIKES_MAX),//число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
     comments: createCommentsArray() // массив объектов — список комментариев, оставленных другими пользователями к этой фотографии. Количество комментариев к каждой фотографии — случайное число от 0 до 30. Все комментарии генерируются случайным образом.
   };
 };
 
 const createPhotosArray = function () {
-  return Array.from({ length: PHOTOS_ARRAY_LENGTH }, createPhotoDescription);
+  return Array.from({ length: PHOTOS_COUNT }, createPhotoDescription);
 };
 
 
