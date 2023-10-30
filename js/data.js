@@ -54,8 +54,8 @@ const DESCRIPTIONS = [
 ];
 
 
-const randomPhotoId = createRandomId(1, 25);
-const randomUrlPhoto = createRandomId(1, 25);
+const randomPhotoId = createRandomId(1, PHOTOS_COUNT);
+const randomUrlPhoto = createRandomId(1, PHOTOS_COUNT);
 
 
 const createMessage = function () {
