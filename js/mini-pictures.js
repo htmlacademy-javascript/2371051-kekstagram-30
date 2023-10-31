@@ -16,16 +16,16 @@ const picturesContainer = document.querySelector('.pictures');
 
 const picturesFragment = document.createDocumentFragment();
 
-photosArray.forEach((photo) => {
+photosArray.forEach(({url, description, likes, comments}) => {
   const newPhoto = pictureLink.cloneNode(true);
   const newPhotoImage = newPhoto.querySelector('.picture__img');
   const newPhotoLikes = newPhoto.querySelector('.picture__likes');
   const newPhotoComments = newPhoto.querySelector('.picture__comments');
 
-  newPhotoImage.src = photo.url;
-  newPhotoImage.alt = photo.description;
-  newPhotoLikes.textContent = photo.likes;
-  newPhotoComments.textContent = photo.comments.length;
+  newPhotoImage.src = url;
+  newPhotoImage.alt = description;
+  newPhotoLikes.textContent = likes;
+  newPhotoComments.textContent = comments.length;
 
   picturesFragment.append(newPhoto);
 });
