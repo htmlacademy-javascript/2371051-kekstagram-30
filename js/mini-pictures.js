@@ -7,28 +7,28 @@
 // Отрисуйте сгенерированные DOM-элементы в блок .pictures. Для вставки элементов используйте DocumentFragment.
 
 // Подключите модуль в проект.
-import { createPhotosArray } from './data.js';
 
-const photosArray = createPhotosArray();
-const picturesTemplate = document.querySelector('#picture').content;
-const pictureLink = picturesTemplate.querySelector('.picture');
+const picturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
 
-const picturesFragment = document.createDocumentFragment();
+const createThumbnail = function ({ url, description, likes, comments }) {
+  const thumbnail = picturesTemplate.cloneNode(true);
+  thumbnail.querySelector('.picture__img').src = url;
+  thumbnail.querySelector('.picture__likes').textContent = likes;
+  thumbnail.querySelector('.picture__comments').textContent = comments.length;
+  thumbnail.querySelector('.picture__img').alt = description;
 
-photosArray.forEach(({url, description, likes, comments}) => {
-  const newPhoto = pictureLink.cloneNode(true);
-  const newPhotoImage = newPhoto.querySelector('.picture__img');
-  const newPhotoLikes = newPhoto.querySelector('.picture__likes');
-  const newPhotoComments = newPhoto.querySelector('.picture__comments');
+  return thumbnail;
+};
 
-  newPhotoImage.src = url;
-  newPhotoImage.alt = description;
-  newPhotoLikes.textContent = likes;
-  newPhotoComments.textContent = comments.length;
+const renderThumbnails = function (photos) {
+  const picturesFragment = document.createDocumentFragment();
 
-  picturesFragment.append(newPhoto);
-});
+  photos.forEach((photo) => {
+    const thumbnail = createThumbnail(photo);
+    picturesFragment.append(thumbnail);
+  });
+  picturesContainer.append(picturesFragment);
+};
 
-picturesContainer.append(picturesFragment);
-
+export { renderThumbnails };
