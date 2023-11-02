@@ -32,3 +32,4 @@ const renderThumbnails = function (photos) {
 };
 
 export { renderThumbnails };
+
