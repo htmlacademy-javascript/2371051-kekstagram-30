@@ -7,13 +7,15 @@ const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const openModal = function () {
   const thumbnails = document.querySelectorAll('.picture');
 
+  const showBigPicture = () => {
+    bigPicture.classList.remove('hidden');
+    body.classList.add('modal-open');
+    bigPicture.querySelector('.social__comment-count').classList.add('hidden');
+    bigPicture.querySelector('.comments-loader').classList.add('hidden');
+  };
+
   thumbnails.forEach((thumbnail) => {
-    thumbnail.addEventListener('click', () => {
-      bigPicture.classList.remove('hidden');
-      body.classList.add('modal-open');
-      bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-      bigPicture.querySelector('.comments-loader').classList.add('hidden');
-    });
+    thumbnail.addEventListener('click', showBigPicture);
   });
 };
 
@@ -32,7 +34,6 @@ document.addEventListener('keydown', (evt) => {
     closeModal();
   }
 });
-
 
 export { openModal, closeModal };
 
