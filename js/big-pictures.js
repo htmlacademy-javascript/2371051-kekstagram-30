@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { renderComments, initCommentList } from './comment.js';
 
 const bigPictureElement = document.querySelector('.big-picture');
 const bodyElement = document.querySelector('body');
@@ -36,6 +37,8 @@ const showPicture = function (pictureData) {
       hidePicture();
     }
   });
+  renderComments(pictureData.comments);
+  initCommentList();
 
   renderPicture(pictureData);
 };
