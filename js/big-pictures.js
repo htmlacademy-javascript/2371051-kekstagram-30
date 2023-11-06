@@ -1,21 +1,45 @@
-const bigPicture = document.querySelector('.big-picture');
+import { isEscapeKey } from './util.js';
 
-const addBigPictureContent = function (pictures) {
-  pictures.forEach((picture) => {
-    const image = bigPicture.querySelector('.big-picture__img');
-    const likesCount = bigPicture.querySelector('.likes-count');
-    // const commentsSwounCount = bigPicture.querySelector('.social__comment-shown-count');
-    const commentsTotalCount = bigPicture.querySelector('.social__comment-total-count');
-    const commentsList = bigPicture.querySelector('.social__comments');
-    const photoDescription = bigPicture.querySelector('.social__caption');
+const bigPictureElement = document.querySelector('.big-picture');
+const bodyElement = document.querySelector('body');
+const closeButtonElement = bigPictureElement.querySelector('.big-picture__cancel');
 
-    image.src = picture.url;
-    likesCount.textContent = picture.likes;
-    // commentsSwounCount.textContent = picture.comments;
-    commentsTotalCount.textContent = picture.comments;
-    commentsList.append(picture.comments);
-    photoDescription.textContent = picture.description;
+const hidePicture = function () {
+  bigPictureElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+
+  document.removeEventListener('keydown', (evt) => {
+    if (isEscapeKey) {
+      evt.preventDefault();
+      hidePicture();
+    }
   });
 };
 
-export { addBigPictureContent };
+const onCloseButtonClick = function () {
+  hidePicture();
+};
+
+const renderPicture = function ({ url, description, likes }) {
+  bigPictureElement.querySelector('.big-picture__img img').src = url;
+  bigPictureElement.querySelector('.big-picture__img img').alt = description;
+  bigPictureElement.querySelector('.likes-count').textContent = likes;
+  bigPictureElement.querySelector('.social__caption').textContent = description;
+};
+
+const showPicture = function (pictureData) {
+  bigPictureElement.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey) {
+      evt.preventDefault();
+      hidePicture();
+    }
+  });
+
+  renderPicture(pictureData);
+};
+
+closeButtonElement.addEventListener('click', onCloseButtonClick);
+
+export { showPicture };
