@@ -36,6 +36,8 @@ const closeForm = function () {
   imageUploadInputElement.value = '';
   hashtagInputElement.value = '';
   descriptionInputElement.value = '';
+  pristine.reset();
+  formElement.reset();
 };
 
 //закрытие при нажатии клавиши esc
@@ -56,6 +58,10 @@ const isHashtagValid = function (value) {
   const tags = value.trim().split(' ');
   let isValid = true;
   const hashtagPattern = /^#[a-zа-яё0-9]{1,19}$/i;
+
+  if (tags[0].length === 0) {
+    return isValid;
+  }
 
   for (let i = 0; i < tags.length; i++) {
     if (tags[i].slice(0).match(hashtagPattern) === null) {
@@ -85,13 +91,13 @@ const validateCommentLength = function () {
   return descriptionInputElement.value.length <= DESCRIPTION_SYMBOLS_COUNT;
 };
 
-pristine.addValidator(hashtagInputElement, isHashtagValid, ErrorText.INVALID_HASHTAG);
+pristine.addValidator(hashtagInputElement, isHashtagValid, ErrorText.INVALID_HASHTAG, 1, true);
 
-pristine.addValidator(hashtagInputElement, validateCountHashtags, ErrorText.INVALID_HASHTAGS_COUNT);
+pristine.addValidator(hashtagInputElement, validateCountHashtags, ErrorText.INVALID_HASHTAGS_COUNT, 3, true);
 
-pristine.addValidator(hashtagInputElement, validateUniqueHashtags, ErrorText.NOT_UNIQUE_HASHTAG);
+pristine.addValidator(hashtagInputElement, validateUniqueHashtags, ErrorText.NOT_UNIQUE_HASHTAG, 2, true);
 
-pristine.addValidator(descriptionInputElement, validateCommentLength, ErrorText.LONG_COMMENT);
+pristine.addValidator(descriptionInputElement, validateCommentLength, ErrorText.LONG_COMMENT, 4, true);
 
 const onUploadInputChange = () => {
   openForm();
@@ -110,5 +116,4 @@ formElement.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
     evt.preventDefault();
   }
-  hashtagInputElement.value = '';
 });
