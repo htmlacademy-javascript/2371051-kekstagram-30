@@ -5,7 +5,8 @@ const DESCRIPTION_SYMBOLS_COUNT = 140;
 const ErrorText = {
   INVALID_HASHTAG: 'Введён неправильный хэш-тег',
   INVALID_HASHTAGS_COUNT: `Максимум ${MAX_HASHTAGS_COUNT} хэш-тэгов`,
-  NOT_UNIQUE: 'Хэштеги не должны повторяться'
+  NOT_UNIQUE_HASHTAG: 'Хэштеги не должны повторяться',
+  LONG_COMMENT: `Количество символов должно быть не больше ${DESCRIPTION_SYMBOLS_COUNT}`
 };
 
 const bodyElement = document.querySelector('body');
@@ -23,15 +24,30 @@ const pristine = new Pristine(formElement, {
   errorTextTag: 'div'
 });
 
+const openForm = function () {
+  imageUploadOverlayElement.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
+
+};
+
 const closeForm = function () {
   imageUploadOverlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   imageUploadInputElement.value = '';
+
 };
 
-const openForm = function () {
-  imageUploadOverlayElement.classList.remove('hidden');
-  bodyElement.classList.add('modal-open');
+//закрытие при нажатии клавиши esc
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    if (hashtagInputElement === document.activeElement || descriptionInputElement === document.activeElement) {
+      evt.stopPropagation();
+      return;
+    }
+
+    evt.preventDefault();
+    closeForm();
+  }
 };
 
 //проверяет валидность хештега
@@ -63,18 +79,27 @@ const validateUniqueHashtags = (value) => {
   return tags.length === new Set(lowerCaseTags).size;
 };
 
+//проверка длины комментария
+const validateCommentLength = function () {
+  return descriptionInputElement.value.length <= DESCRIPTION_SYMBOLS_COUNT;
+};
+
 pristine.addValidator(hashtagInputElement, isHashtagValid, ErrorText.INVALID_HASHTAG);
 
 pristine.addValidator(hashtagInputElement, validateCountHashtags, ErrorText.INVALID_HASHTAGS_COUNT);
 
-pristine.addValidator(hashtagInputElement, validateUniqueHashtags, ErrorText.NOT_UNIQUE);
+pristine.addValidator(hashtagInputElement, validateUniqueHashtags, ErrorText.NOT_UNIQUE_HASHTAG);
+
+pristine.addValidator(descriptionInputElement, validateCommentLength, ErrorText.LONG_COMMENT);
 
 const onUploadInputChange = () => {
   openForm();
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
 const onCloseButtonClick = () => {
   closeForm();
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 imageUploadInputElement.addEventListener('change', onUploadInputChange);
@@ -86,16 +111,3 @@ formElement.addEventListener('submit', (evt) => {
   }
   hashtagInputElement.value = '';
 });
-
-//получить массив хештегов
-//проверить каждый хештег на валидность
-//проверить нет ли одинаковых хештегов
-//проверить колличество хештегов
-
-
-// хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
-// хэш-теги разделяются пробелами;
-// один и тот же хэш-тег не может быть использован дважды;
-// нельзя указать больше пяти хэш-тегов;
-// хэш-теги необязательны;
-// если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
