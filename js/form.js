@@ -117,3 +117,5 @@ formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
   }
 });
+
+export { formElement };
