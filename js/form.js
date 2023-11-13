@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import {init as initFilters, reset as resetFilters} from './filters.js';
 
 const MAX_HASHTAGS_COUNT = 5;
 const DESCRIPTION_SYMBOLS_COUNT = 140;
@@ -102,11 +103,13 @@ pristine.addValidator(descriptionInputElement, validateCommentLength, ErrorText.
 const onUploadInputChange = () => {
   openForm();
   document.addEventListener('keydown', onDocumentKeydown);
+  initFilters();
 };
 
 const onCloseButtonClick = () => {
   closeForm();
   document.removeEventListener('keydown', onDocumentKeydown);
+  resetFilters();
 };
 
 imageUploadInputElement.addEventListener('change', onUploadInputChange);

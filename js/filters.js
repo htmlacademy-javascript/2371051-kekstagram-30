@@ -151,6 +151,5 @@ const init = () => {
   effectElement.addEventListener('change', onEffectsChange);
 };
 
-// export { init, reset };
+export { init, reset }; //в form.js
 
-init();
