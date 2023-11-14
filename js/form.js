@@ -28,7 +28,7 @@ const pristine = new Pristine(formElement, {
 const openForm = function () {
   imageUploadOverlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-
+  initFilters();
 };
 
 const closeForm = function () {
@@ -39,6 +39,7 @@ const closeForm = function () {
   descriptionInputElement.value = '';
   pristine.reset();
   formElement.reset();
+  resetFilters();
 };
 
 //закрытие при нажатии клавиши esc
@@ -103,13 +104,13 @@ pristine.addValidator(descriptionInputElement, validateCommentLength, ErrorText.
 const onUploadInputChange = () => {
   openForm();
   document.addEventListener('keydown', onDocumentKeydown);
-  initFilters();
 };
 
 const onCloseButtonClick = () => {
   closeForm();
   document.removeEventListener('keydown', onDocumentKeydown);
-  resetFilters();
+
+  closeButtonElement.removeEventListener('click', onCloseButtonClick);
 };
 
 imageUploadInputElement.addEventListener('change', onUploadInputChange);

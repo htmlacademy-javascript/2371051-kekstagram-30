@@ -44,8 +44,7 @@
 //   onBiggerButtonClick();
 // });
 
-import { formElement } from './form.js';
-
+const formElement = document.querySelector('.img-upload__form');
 const smallerButtonElement = formElement.querySelector('.scale__control--smaller');
 const biggerButtonElement = formElement.querySelector('.scale__control--bigger');
 
@@ -65,8 +64,9 @@ const setTransformAndValue = (newValue) => {
 //осуществляет увеличение или уменьшение значения при нажатии на кнопки.
 const onButtonClick = (increment) => {
   const currentValue = getPercentValue();
-  if (currentValue + increment >= 25 && currentValue + increment <= 100) {
-    setTransformAndValue(currentValue + increment);
+  const newValue = currentValue + increment;
+  if (newValue >= 25 && newValue <= 100) {
+    setTransformAndValue(newValue);
   }
 };
 
