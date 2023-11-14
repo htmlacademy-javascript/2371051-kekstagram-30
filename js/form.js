@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import {init as initFilters, reset as resetFilters} from './filters.js';
 
 const MAX_HASHTAGS_COUNT = 5;
 const DESCRIPTION_SYMBOLS_COUNT = 140;
@@ -27,7 +28,6 @@ const pristine = new Pristine(formElement, {
 const openForm = function () {
   imageUploadOverlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-
 };
 
 const closeForm = function () {
@@ -38,6 +38,7 @@ const closeForm = function () {
   descriptionInputElement.value = '';
   pristine.reset();
   formElement.reset();
+  resetFilters();
 };
 
 //закрытие при нажатии клавиши esc
@@ -111,9 +112,12 @@ const onCloseButtonClick = () => {
 
 imageUploadInputElement.addEventListener('change', onUploadInputChange);
 closeButtonElement.addEventListener('click', onCloseButtonClick);
+initFilters();
 
 formElement.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
     evt.preventDefault();
   }
 });
+
+export { formElement };
