@@ -28,7 +28,6 @@ const pristine = new Pristine(formElement, {
 const openForm = function () {
   imageUploadOverlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  initFilters();
 };
 
 const closeForm = function () {
@@ -109,12 +108,11 @@ const onUploadInputChange = () => {
 const onCloseButtonClick = () => {
   closeForm();
   document.removeEventListener('keydown', onDocumentKeydown);
-
-  closeButtonElement.removeEventListener('click', onCloseButtonClick);
 };
 
 imageUploadInputElement.addEventListener('change', onUploadInputChange);
 closeButtonElement.addEventListener('click', onCloseButtonClick);
+initFilters();
 
 formElement.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
