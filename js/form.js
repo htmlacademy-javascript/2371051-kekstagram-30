@@ -45,18 +45,21 @@ const closeForm = function () {
   formElement.reset();
   resetFilters();
   resetScale();
+
+  document.removeEventListener('click', onCloseButtonClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const isErrorMessageExists = () => Boolean(document.querySelector('.error'));
 const isTextFieldFocused = () => hashtagInputElement === document.activeElement || descriptionInputElement === document.activeElement;
 
 //закрытие при нажатии клавиши esc
-const onDocumentKeydown = (evt) => {
+function onDocumentKeydown (evt) {
   if (isEscapeKey(evt) && !isTextFieldFocused() && !isErrorMessageExists()) {
     evt.preventDefault();
     closeForm();
   }
-};
+}
 
 //проверяет валидность хештега
 const isHashtagValid = function (value) {
@@ -109,10 +112,9 @@ const onUploadInputChange = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const onCloseButtonClick = () => {
+function onCloseButtonClick () {
   closeForm();
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
+}
 
 const sendForm = async (form) => {
   if (!pristine.validate()) {
@@ -140,19 +142,3 @@ closeButtonElement.addEventListener('click', onCloseButtonClick);
 formElement.addEventListener('submit', onFormSubmit);
 initFilters();
 
-// const successButtonElement = successMessage.querySelector('.success__button');
-
-// const showSuccessMessage = () => {
-//   const container = document.createDocumentFragment();
-//   container.append(successMessage);
-//   bodyElement.append(container);
-// };
-
-// const closeSuccessMessage = () => {
-//   successMessage.remove();
-// };
-
-// const onSuccessButtonClick = () => closeSuccessMessage;
-
-// setUserFormSubmit();
-// export { setUserFormSubmit, closeForm };
