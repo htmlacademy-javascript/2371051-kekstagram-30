@@ -55,7 +55,7 @@ const isTextFieldFocused = () => hashtagInputElement === document.activeElement 
 
 //закрытие при нажатии клавиши esc
 const onDocumentKeydown = (evt) => {
-  if (isEscapeKey && !isTextFieldFocused() && !isErrorMessageExists()) {
+  if (isEscapeKey(evt) && !isTextFieldFocused() && !isErrorMessageExists()) {
     evt.preventDefault();
     closeForm();
   }

@@ -15,7 +15,7 @@ const onCloseButtonClick = () => {
 };
 
 const onDocumentKeydown = (evt) => {
-  if (isEscapeKey) {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     hideMessage();
   }

@@ -59,7 +59,7 @@ const hidePicture = function () {
   bodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', (evt) => {
-    if (isEscapeKey) {
+    if (isEscapeKey(evt)) {
       evt.preventDefault();
       hidePicture();
     }
@@ -81,7 +81,7 @@ const showPicture = function (pictureData) {
   bigPictureElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey) {
+    if (isEscapeKey(evt)) {
       evt.preventDefault();
       hidePicture();
     }
