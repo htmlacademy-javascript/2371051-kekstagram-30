@@ -41,9 +41,6 @@ const openForm = function () {
 const closeForm = function () {
   imageUploadOverlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  imageUploadInputElement.value = '';
-  hashtagInputElement.value = '';
-  descriptionInputElement.value = '';
   pristine.reset();
   formElement.reset();
   resetFilters();
