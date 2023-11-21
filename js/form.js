@@ -1,5 +1,8 @@
 import { isEscapeKey } from './util.js';
-import {init as initFilters, reset as resetFilters} from './filters.js';
+import { init as initFilters, reset as resetFilters } from './filters.js';
+import { reset as resetScale } from './scale.js';
+import { sendData } from './api.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const MAX_HASHTAGS_COUNT = 5;
 const DESCRIPTION_SYMBOLS_COUNT = 140;
@@ -17,6 +20,11 @@ const imageUploadOverlayElement = formElement.querySelector('.img-upload__overla
 const closeButtonElement = formElement.querySelector('.img-upload__cancel');
 const hashtagInputElement = formElement.querySelector('.text__hashtags');
 const descriptionInputElement = formElement.querySelector('.text__description');
+const submitButtonElement = formElement.querySelector('.img-upload__submit');
+
+const toggleSubmitButton = (isDisabled) => {
+  submitButtonElement.disabled = isDisabled;
+};
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -33,26 +41,25 @@ const openForm = function () {
 const closeForm = function () {
   imageUploadOverlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  imageUploadInputElement.value = '';
-  hashtagInputElement.value = '';
-  descriptionInputElement.value = '';
   pristine.reset();
   formElement.reset();
   resetFilters();
+  resetScale();
+
+  document.removeEventListener('click', onCloseButtonClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-//закрытие при нажатии клавиши esc
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    if (hashtagInputElement === document.activeElement || descriptionInputElement === document.activeElement) {
-      evt.stopPropagation();
-      return;
-    }
+const isErrorMessageExists = () => Boolean(document.querySelector('.error'));
+const isTextFieldFocused = () => hashtagInputElement === document.activeElement || descriptionInputElement === document.activeElement;
 
+//закрытие при нажатии клавиши esc
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt) && !isTextFieldFocused() && !isErrorMessageExists()) {
     evt.preventDefault();
     closeForm();
   }
-};
+}
 
 //проверяет валидность хештега
 const isHashtagValid = function (value) {
@@ -105,19 +112,33 @@ const onUploadInputChange = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const onCloseButtonClick = () => {
+function onCloseButtonClick () {
   closeForm();
-  document.removeEventListener('keydown', onDocumentKeydown);
+}
+
+const sendForm = async (form) => {
+  if (!pristine.validate()) {
+    return;
+  }
+  try {
+    toggleSubmitButton(true);
+    await sendData(new FormData(form));
+    toggleSubmitButton(false);
+    closeForm();
+    showSuccessMessage();
+  } catch {
+    showErrorMessage();
+    toggleSubmitButton(false);
+  }
+};
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  sendForm(evt.target);
 };
 
 imageUploadInputElement.addEventListener('change', onUploadInputChange);
 closeButtonElement.addEventListener('click', onCloseButtonClick);
+formElement.addEventListener('submit', onFormSubmit);
 initFilters();
 
-formElement.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
-});
-
-export { formElement };

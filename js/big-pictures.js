@@ -58,12 +58,7 @@ const hidePicture = function () {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
-  document.removeEventListener('keydown', (evt) => {
-    if (isEscapeKey) {
-      evt.preventDefault();
-      hidePicture();
-    }
-  });
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const onCloseButtonClick = function () {
@@ -80,12 +75,7 @@ const renderPicture = function ({ url, description, likes }) {
 const showPicture = function (pictureData) {
   bigPictureElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey) {
-      evt.preventDefault();
-      hidePicture();
-    }
-  });
+  document.addEventListener('keydown', onDocumentKeydown);
 
   comments = pictureData.comments;
   if (comments.length > 0) {
@@ -94,6 +84,13 @@ const showPicture = function (pictureData) {
 
   renderPicture(pictureData);
 };
+
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    hidePicture();
+  }
+}
 
 closeButtonElement.addEventListener('click', onCloseButtonClick);
 
