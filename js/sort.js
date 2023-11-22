@@ -39,7 +39,7 @@ const filterHandlers = {
     [...data].sort((item1, item2) => item2.comments.length - item1.comments.length)
 };
 
-const buttonsToggle = (evt) => {
+const changeActiveButtonClass = (evt) => {
   const currentActiveFilter = filterFormElement.querySelector('.img-filters__button--active');
   currentActiveFilter.classList.remove('img-filters__button--active');
   evt.target.classList.add('img-filters__button--active');
@@ -59,15 +59,15 @@ const initFilter = (data) => {
   filterElement.classList.remove('img-filters--inactive');
   // const filtered = filterHandlers[Filters.DISCUSSED](data);
   defaultButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(buttonsToggle(evt), Filters.DEFAULT, data);
+    debouncedRepaint(changeActiveButtonClass(evt), Filters.DEFAULT, data);
   });
 
   discussedButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(buttonsToggle(evt), Filters.DISCUSSED, data);
+    debouncedRepaint(changeActiveButtonClass(evt), Filters.DISCUSSED, data);
   });
 
   randomButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(buttonsToggle(evt), Filters.RANDOM, data);
+    debouncedRepaint(changeActiveButtonClass(evt), Filters.RANDOM, data);
   });
 };
 
