@@ -25,6 +25,7 @@ const hashtagInputElement = formElement.querySelector('.text__hashtags');
 const descriptionInputElement = formElement.querySelector('.text__description');
 const submitButtonElement = formElement.querySelector('.img-upload__submit');
 const previewElement = formElement.querySelector('.img-upload__preview img');
+const effectPreviewElement = formElement.querySelectorAll('.effects__preview');
 
 const toggleSubmitButton = (isDisabled) => {
   submitButtonElement.disabled = isDisabled;
@@ -102,6 +103,9 @@ const onUploadInputChange = () => {
 
   if (matches) {
     previewElement.src = URL.createObjectURL(file);
+    effectPreviewElement.forEach((preview) => {
+      preview.style.backgroundImage = `url('${previewElement.src}')`;
+    });
   }
 
   openForm();

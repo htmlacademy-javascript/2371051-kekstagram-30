@@ -45,7 +45,7 @@ const changeActiveButtonClass = (evt) => {
   evt.target.classList.add('img-filters__button--active');
 };
 
-const repaint = (evt, filter, data) => {
+const repaint = (filter, data) => {
   const filterData = filterHandlers[filter](data);
   const pictures = document.querySelectorAll('.picture');
   pictures.forEach((item) => item.remove());
@@ -57,17 +57,19 @@ const debouncedRepaint = debounce(repaint);
 
 const initFilter = (data) => {
   filterElement.classList.remove('img-filters--inactive');
-  // const filtered = filterHandlers[Filters.DISCUSSED](data);
   defaultButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(changeActiveButtonClass(evt), Filters.DEFAULT, data);
+    changeActiveButtonClass(evt);
+    debouncedRepaint(Filters.DEFAULT, data);
   });
 
   discussedButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(changeActiveButtonClass(evt), Filters.DISCUSSED, data);
+    changeActiveButtonClass(evt);
+    debouncedRepaint(Filters.DISCUSSED, data);
   });
 
   randomButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(changeActiveButtonClass(evt), Filters.RANDOM, data);
+    changeActiveButtonClass(evt);
+    debouncedRepaint(Filters.RANDOM, data);
   });
 };
 
