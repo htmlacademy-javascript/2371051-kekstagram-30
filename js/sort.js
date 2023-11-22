@@ -39,16 +39,19 @@ const filterHandlers = {
     [...data].sort((item1, item2) => item2.comments.length - item1.comments.length)
 };
 
+const buttonsToggle = (evt) => {
+  const currentActiveFilter = filterFormElement.querySelector('.img-filters__button--active');
+  currentActiveFilter.classList.remove('img-filters__button--active');
+  evt.target.classList.add('img-filters__button--active');
+};
+
 const repaint = (evt, filter, data) => {
   const filterData = filterHandlers[filter](data);
   const pictures = document.querySelectorAll('.picture');
   pictures.forEach((item) => item.remove());
   renderGallery(filterData);
-
-  const currentActiveFilter = filterFormElement.querySelector('.img-filters__button--active');
-  currentActiveFilter.classList.remove('img-filters__button--active');
-  evt.target.classList.add('img-filters__button--active');
 };
+
 
 const debouncedRepaint = debounce(repaint);
 
@@ -56,15 +59,15 @@ const initFilter = (data) => {
   filterElement.classList.remove('img-filters--inactive');
   // const filtered = filterHandlers[Filters.DISCUSSED](data);
   defaultButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, Filters.DEFAULT, data);
+    debouncedRepaint(buttonsToggle(evt), Filters.DEFAULT, data);
   });
 
   discussedButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, Filters.DISCUSSED, data);
+    debouncedRepaint(buttonsToggle(evt), Filters.DISCUSSED, data);
   });
 
   randomButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, Filters.RANDOM, data);
+    debouncedRepaint(buttonsToggle(evt), Filters.RANDOM, data);
   });
 };
 
