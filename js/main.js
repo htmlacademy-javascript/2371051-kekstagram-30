@@ -11,7 +11,6 @@ const bootstrap = async () => {
     const pictures = await getData();
     renderGallery(pictures);
     initFilter(pictures);
-    // setRandomButtonClick(pictures, renderGallery);
   } catch (error) {
     showErrorMessage();
   }
