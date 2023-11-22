@@ -4,6 +4,7 @@ import { reset as resetScale } from './scale.js';
 import { sendData } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 
+const HASHTAG_PATTERN = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAGS_COUNT = 5;
 const DESCRIPTION_SYMBOLS_COUNT = 140;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
@@ -64,34 +65,18 @@ function onDocumentKeydown(evt) {
   }
 }
 
+const normilizeTags = (tagString) =>
+  tagString.trim().split(' ').filter((tag) => Boolean(tag.length));
+
 //проверяет валидность хештега
-const isHashtagValid = function (value) {
-  const tags = value.trim().split(' ');
-  let isValid = true;
-  const hashtagPattern = /^#[a-zа-яё0-9]{1,19}$/i;
-
-  if (tags[0].length === 0) {
-    return isValid;
-  }
-
-  for (let i = 0; i < tags.length; i++) {
-    if (tags[i].slice(0).match(hashtagPattern) === null) {
-      isValid = false;
-      break;
-    }
-  }
-  return isValid;
-};
+const isHashtagValid = (value) => normilizeTags(value).every((tag) => HASHTAG_PATTERN.test(tag));
 
 //проверка на кол-во хештегов
-const validateCountHashtags = (value) => {
-  const hashtagsArray = value.split(' ');
-  return hashtagsArray.length <= MAX_HASHTAGS_COUNT;
-};
+const validateCountHashtags = (value) => normilizeTags(value).length <= MAX_HASHTAGS_COUNT;
 
 //проверка на одинаковые хештеги
 const validateUniqueHashtags = (value) => {
-  const tags = value.trim().split(' ');
+  const tags = normilizeTags(value);
 
   const lowerCaseTags = tags.map((tag) => tag.toLowerCase());
   return tags.length === new Set(lowerCaseTags).size;
