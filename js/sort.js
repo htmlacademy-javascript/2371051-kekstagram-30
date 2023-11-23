@@ -39,32 +39,37 @@ const filterHandlers = {
     [...data].sort((item1, item2) => item2.comments.length - item1.comments.length)
 };
 
-const repaint = (evt, filter, data) => {
-  const filterData = filterHandlers[filter](data);
-  const pictures = document.querySelectorAll('.picture');
-  pictures.forEach((item) => item.remove());
-  renderGallery(filterData);
-
+const changeActiveButtonClass = (evt) => {
   const currentActiveFilter = filterFormElement.querySelector('.img-filters__button--active');
   currentActiveFilter.classList.remove('img-filters__button--active');
   evt.target.classList.add('img-filters__button--active');
 };
 
+const repaint = (filter, data) => {
+  const filterData = filterHandlers[filter](data);
+  const pictures = document.querySelectorAll('.picture');
+  pictures.forEach((item) => item.remove());
+  renderGallery(filterData);
+};
+
+
 const debouncedRepaint = debounce(repaint);
 
 const initFilter = (data) => {
   filterElement.classList.remove('img-filters--inactive');
-  // const filtered = filterHandlers[Filters.DISCUSSED](data);
   defaultButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, Filters.DEFAULT, data);
+    changeActiveButtonClass(evt);
+    debouncedRepaint(Filters.DEFAULT, data);
   });
 
   discussedButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, Filters.DISCUSSED, data);
+    changeActiveButtonClass(evt);
+    debouncedRepaint(Filters.DISCUSSED, data);
   });
 
   randomButtonElement.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, Filters.RANDOM, data);
+    changeActiveButtonClass(evt);
+    debouncedRepaint(Filters.RANDOM, data);
   });
 };
 
