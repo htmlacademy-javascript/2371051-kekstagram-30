@@ -1,12 +1,6 @@
 import { renderGallery } from './gallery.js';
 import { debounce } from './util.js';
 
-const filterElement = document.querySelector('.img-filters');
-const filterFormElement = filterElement.querySelector('.img-filters__form');
-const randomButtonElement = filterFormElement.querySelector('#filter-random');
-const defaultButtonElement = filterFormElement.querySelector('#filter-default');
-const discussedButtonElement = filterFormElement.querySelector('#filter-discussed');
-
 const MAX_RANDOM_FILTER = 10;
 
 const Filters = {
@@ -15,9 +9,13 @@ const Filters = {
   DISCUSSED: 'discussed',
 };
 
-function getRandomIndex(min, max) {
-  return Math.floor(Math.random() * (max - min));
-}
+const filterElement = document.querySelector('.img-filters');
+const filterFormElement = filterElement.querySelector('.img-filters__form');
+const randomButtonElement = filterFormElement.querySelector('#filter-random');
+const defaultButtonElement = filterFormElement.querySelector('#filter-default');
+const discussedButtonElement = filterFormElement.querySelector('#filter-discussed');
+
+const getRandomIndex = (min, max) => Math.floor(Math.random() * (max - min));
 
 const filterHandlers = {
   [Filters.DEFAULT]: (data) => data,

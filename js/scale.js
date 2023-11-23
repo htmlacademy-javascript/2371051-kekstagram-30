@@ -1,4 +1,5 @@
 const DEFAULT_SCALE = 100;
+const PERCENT_STEP = 25;
 
 const formElement = document.querySelector('.img-upload__form');
 const smallerButtonElement = formElement.querySelector('.scale__control--smaller');
@@ -6,7 +7,6 @@ const biggerButtonElement = formElement.querySelector('.scale__control--bigger')
 
 const scaleValueElement = formElement.querySelector('.scale__control--value');
 const imagePreview = formElement.querySelector('.img-upload__preview img');
-const percentStep = 25;
 
 
 //получаем значение процентов
@@ -33,12 +33,12 @@ const reset = () => {
 
 smallerButtonElement.addEventListener('click', (evt) => {
   evt.preventDefault();
-  onButtonClick(-percentStep);
+  onButtonClick(-PERCENT_STEP);
 });
 
 biggerButtonElement.addEventListener('click', (evt) => {
   evt.preventDefault();
-  onButtonClick(percentStep);
+  onButtonClick(PERCENT_STEP);
 });
 
 export { reset };

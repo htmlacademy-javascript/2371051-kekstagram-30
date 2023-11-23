@@ -1,10 +1,11 @@
-const errorMessageTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
 const ALERT_SHOW_TIME = 5000;
+
+const errorMessageElement = document.querySelector('#data-error').content.querySelector('.data-error');
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showErrorMessage = () => {
-  const errorElement = errorMessageTemplate.cloneNode(true);
+  const errorElement = errorMessageElement.cloneNode(true);
   document.body.append(errorElement);
 
   setTimeout(() => {

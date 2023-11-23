@@ -4,10 +4,10 @@ import { reset as resetScale } from './scale.js';
 import { sendData } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 
-const HASHTAG_PATTERN = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAGS_COUNT = 5;
 const DESCRIPTION_SYMBOLS_COUNT = 140;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const HASHTAG_PATTERN = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const ErrorText = {
   INVALID_HASHTAG: 'Введён неправильный хэш-тег',
@@ -99,7 +99,7 @@ pristine.addValidator(descriptionInputElement, validateCommentLength, ErrorText.
 const onUploadInputChange = () => {
   const file = imageUploadInputElement.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
 
   if (matches) {
     previewElement.src = URL.createObjectURL(file);

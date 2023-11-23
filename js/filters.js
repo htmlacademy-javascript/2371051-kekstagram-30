@@ -30,7 +30,7 @@ const effectsToFilter = {
   },
 };
 
-const effectToSliderOption = {
+const effectToSliderOptions = {
   [Effect.DEFAULT]: {
     min: 0,
     max: 100,
@@ -127,7 +127,7 @@ const setSlider = () => {
   if (isDefault()) {
     hideSlider();
   } else {
-    updateSlider(effectToSliderOption[choosenEffect]);
+    updateSlider(effectToSliderOptions[choosenEffect]);
     showSlider();
   }
 };
@@ -147,7 +147,7 @@ const onEffectsChange = (evt) => {
 };
 
 const init = () => {
-  createSlider(effectToSliderOption[choosenEffect]);
+  createSlider(effectToSliderOptions[choosenEffect]);
   effectElement.addEventListener('change', onEffectsChange);
 };
 
