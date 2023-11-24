@@ -37,10 +37,13 @@ const renderComments = function () {
   }
 
   const fragment = document.createDocumentFragment();
+
   for (let i = 0; i < commentsCountShown; i++) {
     const comment = createComment(comments[i]);
     fragment.append(comment);
   }
+
+  console.log(commentsCountShown);
 
   commentsListElement.innerHTML = '';
   commentsListElement.append(fragment);
@@ -49,9 +52,7 @@ const renderComments = function () {
   totalCommentCountElement.textContent = comments.length;
 };
 
-const onCommentsLoaderClick = function () {
-  renderComments();
-};
+const onCommentsLoaderClick = () => renderComments();
 
 const hidePicture = function () {
   commentsCountShown = 0;
@@ -79,6 +80,7 @@ const showPicture = function (pictureData) {
 
   comments = pictureData.comments;
   if (comments.length > 0) {
+    commentsCountShown = 0;
     renderComments();
   }
 
