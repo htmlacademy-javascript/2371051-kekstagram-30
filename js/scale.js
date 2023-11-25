@@ -1,5 +1,7 @@
 const DEFAULT_SCALE = 100;
 const PERCENT_STEP = 25;
+const PERCENT_MAX = 100;
+const PERCENT_MIN = 25;
 
 const formElement = document.querySelector('.img-upload__form');
 const smallerButtonElement = formElement.querySelector('.scale__control--smaller');
@@ -22,7 +24,7 @@ const setTransformAndValue = (newValue) => {
 const onButtonClick = (increment) => {
   const currentValue = getPercentValue();
   const newValue = currentValue + increment;
-  if (newValue >= 25 && newValue <= 100) {
+  if (newValue >= PERCENT_MIN && newValue <= PERCENT_MAX) {
     setTransformAndValue(newValue);
   }
 };

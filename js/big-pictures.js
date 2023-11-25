@@ -37,6 +37,7 @@ const renderComments = function () {
   }
 
   const fragment = document.createDocumentFragment();
+
   for (let i = 0; i < commentsCountShown; i++) {
     const comment = createComment(comments[i]);
     fragment.append(comment);
@@ -49,9 +50,7 @@ const renderComments = function () {
   totalCommentCountElement.textContent = comments.length;
 };
 
-const onCommentsLoaderClick = function () {
-  renderComments();
-};
+const onCommentsLoaderClick = () => renderComments();
 
 const hidePicture = function () {
   commentsCountShown = 0;
