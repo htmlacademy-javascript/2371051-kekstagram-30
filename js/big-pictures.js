@@ -43,8 +43,6 @@ const renderComments = function () {
     fragment.append(comment);
   }
 
-  console.log(commentsCountShown);
-
   commentsListElement.innerHTML = '';
   commentsListElement.append(fragment);
 
@@ -80,7 +78,6 @@ const showPicture = function (pictureData) {
 
   comments = pictureData.comments;
   if (comments.length > 0) {
-    commentsCountShown = 0;
     renderComments();
   }
 
